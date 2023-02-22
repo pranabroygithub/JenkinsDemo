@@ -2,23 +2,25 @@ pipeline {
     agent any
 
     stages {
-
-        stage('Docker build'){
-            steps{
-                script{
-                    docker.build('jenkins/demo')
-                }
+        stage('checkout') {
+            steps {
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/pranabroygithub/JenkinsDemo.git']])
             }
         }
-
-        stage('Docker push'){
+        
+        stage('code analysis'){
+            environment {
+                scannerHome = tool 'sonar1'
+            }
             steps{
-                script{
-                    docker.withRegistry('https://003656774475.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:karthik-aws') {
-                        docker.image('jenkins/demo').push("$currentBuild.number")
-                    }
+                
+                withSonarQubeEnv('sonar1') {
+                echo "$ScannerHome"
+                 sh "${scannerHome}/bin/sonar-scanner"
                 }
+                
             }
         }
+        
     }
 }
