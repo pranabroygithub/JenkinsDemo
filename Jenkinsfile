@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment{
+        registry="public.ecr.aws/x9w0j1w9/pranab-docker-images"
+    }
+
+
     stages {
         stage('checkout') {
             steps {
