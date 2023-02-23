@@ -30,7 +30,7 @@ kind: Service
 metadata:
   name: app-srv
 spec:
-  type: loadbalancer
+  type: LoadBalancer
   selector:
     app: myapp
   ports:
