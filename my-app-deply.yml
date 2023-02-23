@@ -30,7 +30,7 @@ kind: Service
 metadata:
   name: app-srv
 spec:
-  type: ClusterIP
+  type: loadbalancer
   selector:
     app: myapp
   ports:
